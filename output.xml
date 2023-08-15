@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20230814 20:31:12.812" rpa="true" schemaversion="3">
+<suite id="s1" name="Tasks" source="c:\Vikranth\RoboCorp-Projects\Project2\tasks.robot">
+<test id="s1-t1" name="Orders robots from RobotSpareBin Industries Inc" line="17">
+<kw name="Downlaod orders and submit">
+<kw name="Download" library="RPA.HTTP">
+<arg>https://robotsparebinindustries.com/orders.csv</arg>
+<arg>overwrite=True</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20230814 20:31:29.465" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20230814 20:31:29.487" level="INFO">Creating Session using : alias=rpasession_alias.httpsrobotsparebinindustries.com, url=https://robotsparebinindustries.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" starttime="20230814 20:31:29.462" endtime="20230814 20:31:30.922"/>
+</kw>
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>https://robotsparebinindustries.com/#/robot-order</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20230814 20:31:30.933" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20230814 20:31:33.691" level="INFO">Created Chrome browser with arguments: --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20230814 20:31:33.693" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20230814 20:31:33.697" level="INFO">Opening url 'https://robotsparebinindustries.com/#/robot-order'</msg>
+<status status="PASS" starttime="20230814 20:31:30.925" endtime="20230814 20:31:35.658"/>
+</kw>
+<status status="PASS" starttime="20230814 20:31:29.460" endtime="20230814 20:31:35.665"/>
+</kw>
+<kw name="Ready with the data">
+<kw name="Read table from CSV" library="RPA.Tables">
+<var>${orders}</var>
+<arg>orders.csv</arg>
+<arg>header=${True}</arg>
+<doc>Read a CSV file as a table.</doc>
+<msg timestamp="20230814 20:31:35.714" level="INFO">${orders} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20230814 20:31:35.679" endtime="20230814 20:31:35.715"/>
+</kw>
+<for flavor="IN">
+<var>${order}</var>
+<value>@{orders}</value>
+<iter>
+<var name="${order}">{'Order number': '1', 'Head': '1', 'Body': '2', 'Legs': '3', 'Address': 'Address 123'}</var>
+<kw name="Log" library="BuiltIn">
+<arg>${order}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230814 20:31:35.736" level="INFO">{'Order number': '1', 'Head': '1', 'Body': '2', 'Legs': '3', 'Address': 'Address 123'}</msg>
+<status status="PASS" starttime="20230814 20:31:35.731" endtime="20230814 20:31:35.737"/>
+</kw>
+<kw name="Open robot order website">
+<arg>${order}</arg>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>OK</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20230814 20:31:35.760" level="INFO">Clicking button 'OK'.</msg>
+<status status="PASS" starttime="20230814 20:31:35.753" endtime="20230814 20:31:35.939"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230814 20:31:36.958" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20230814 20:31:35.943" endtime="20230814 20:31:36.960"/>
+</kw>
+<kw name="Select From List By Index" library="RPA.Browser.Selenium">
+<arg>head</arg>
+<arg>${order}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``indexes``.</doc>
+<msg timestamp="20230814 20:31:36.969" level="INFO">Selecting options from selection list 'head' by index 1.</msg>
+<status status="PASS" starttime="20230814 20:31:36.964" endtime="20230814 20:31:37.338"/>
+</kw>
+<kw name="Select Radio Button" library="RPA.Browser.Selenium">
+<arg>body</arg>
+<arg>${order}[Body]</arg>
+<doc>Sets the radio button group ``group_name`` to ``value``.</doc>
+<msg timestamp="20230814 20:31:37.349" level="INFO">Selecting '2' from radio button 'body'.</msg>
+<status status="PASS" starttime="20230814 20:31:37.342" endtime="20230814 20:31:37.565"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>//input[contains(@class,'form-control')][contains(@type,'number')]</arg>
+<arg>${order}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20230814 20:31:37.573" level="INFO">Typing text '3' into text field '//input[contains(@class,'form-control')][contains(@type,'number')]'.</msg>
+<status status="PASS" starttime="20230814 20:31:37.568" endtime="20230814 20:31:37.792"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>address</arg>
+<arg>${order}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20230814 20:31:37.801" level="INFO">Typing text 'Address 123' into text field 'address'.</msg>
+<status status="PASS" starttime="20230814 20:31:37.795" endtime="20230814 20:31:38.083"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230814 20:31:39.094" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20230814 20:31:38.086" endtime="20230814 20:31:39.098"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>Preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20230814 20:31:39.107" level="INFO">Clicking button 'Preview'.</msg>
+<status status="PASS" starttime="20230814 20:31:39.101" endtime="20230814 20:31:39.236"/>
+</kw>
+<kw name="Screenshot" library="RPA.Browser.Selenium">
+<arg>id:robot-preview-image</arg>
+<arg>${OUTPUT_DIR}${/}${order}[Order number].png</arg>
+<doc>Capture page and/or element screenshot.</doc>
+<msg timestamp="20230814 20:31:39.426" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;img alt="screenshot" class="robot-seleniumlibrary-screenshot" src="data:image/png;base64,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" width="400px"&gt;</msg>
+<msg timestamp="20230814 20:31:39.434" level="INFO">Screenshot saved to file: C:\Vikranth\RoboCorp-Projects\Project2\1.png</msg>
+<status status="PASS" starttime="20230814 20:31:39.239" endtime="20230814 20:31:39.437"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>order</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20230814 20:31:39.447" level="INFO">Clicking button 'order'.</msg>
+<status status="PASS" starttime="20230814 20:31:39.443" endtime="20230814 20:31:39.631"/>
+</kw>
+<kw name="Does Page Contain Element" library="RPA.Browser.Selenium">
+<var>${error}</var>
+<arg>//div[contains(@class, "lert alert-danger")]</arg>
+<doc>Does page contain expected element</doc>
+<msg timestamp="20230814 20:31:39.694" level="INFO" html="true">Ran with keyword &lt;b&gt;Page Should Contain Element&lt;/b&gt; which returned error: &lt;i&gt;Page should have contained element '//div[contains(@class, "lert alert-danger")]' but did not.&lt;/i&gt;</msg>
+<msg timestamp="20230814 20:31:39.696" level="INFO">${error} = False</msg>
+<status status="PASS" starttime="20230814 20:31:39.634" endtime="20230814 20:31:39.697"/>
+</kw>
+<while condition="${error}">
+<iter>
+<kw name="Sleep" library="BuiltIn">
+<arg>1</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20230814 20:31:39.705" endtime="20230814 20:31:39.708"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>order</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="NOT RUN" starttime="20230814 20:31:39.712" endtime="20230814 20:31:39.714"/>
+</kw>
+<kw name="Does Page Contain Element" library="RPA.Browser.Selenium">
+<var>${error}</var>
+<arg>//div[contains(@class, "lert alert-danger")]</arg>
+<doc>Does page contain expected element</doc>
+<status status="NOT RUN" starttime="20230814 20:31:39.716" endtime="20230814 20:31:39.719"/>
+</kw>
+<status status="NOT RUN" starttime="20230814 20:31:39.702" endtime="20230814 20:31:39.720"/>
+</iter>
+<status status="NOT RUN" starttime="20230814 20:31:39.699" endtime="20230814 20:31:39.721"/>
+</while>
+<kw name="Get Element Attribute" library="RPA.Browser.Selenium">
+<var>${order_results_html}</var>
+<arg>id:receipt</arg>
+<arg>outerHTML</arg>
+<doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
+<msg timestamp="20230814 20:31:39.770" level="INFO">${order_results_html} = &lt;div id="receipt" class="alert alert-success" role="alert"&gt;&lt;h3&gt;Receipt&lt;/h3&gt;&lt;div&gt;2023-08-14T15:01:39.610Z&lt;/div&gt;&lt;p class="badge badge-success"&gt;RSB-ROBO-ORDER-WRSC3V9Y0X&lt;/p&gt;&lt;p&gt;Address 123&lt;/p&gt;&lt;div id="par...</msg>
+<status status="PASS" starttime="20230814 20:31:39.723" endtime="20230814 20:31:39.773"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${pdf_path}</var>
+<arg>${OUTPUT_DIR}${/}${order}[Order number].pdf</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230814 20:31:39.785" level="INFO">${pdf_path} = C:\Vikranth\RoboCorp-Projects\Project2\1.pdf</msg>
+<status status="PASS" starttime="20230814 20:31:39.776" endtime="20230814 20:31:39.787"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${pdf_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230814 20:31:39.796" level="INFO">C:\Vikranth\RoboCorp-Projects\Project2\1.pdf</msg>
+<status status="PASS" starttime="20230814 20:31:39.792" endtime="20230814 20:31:39.799"/>
+</kw>
+<kw name="Html To Pdf" library="RPA.PDF">
+<arg>${order_results_html}</arg>
+<arg>${pdf_path}</arg>
+<doc>Generate a PDF file from HTML content.</doc>
+<msg timestamp="20230814 20:31:39.811" level="INFO">Writing output to file C:\Vikranth\RoboCorp-Projects\Project2\1.pdf</msg>
+<msg timestamp="20230814 20:31:41.270" level="INFO">maxp pruned</msg>
+<msg timestamp="20230814 20:31:41.275" level="INFO">cmap pruned</msg>
+<msg timestamp="20230814 20:31:41.312" level="INFO">post pruned</msg>
+<msg timestamp="20230814 20:31:41.338" level="INFO">GDEF dropped</msg>
+<msg timestamp="20230814 20:31:41.341" level="INFO">GPOS dropped</msg>
+<msg timestamp="20230814 20:31:41.342" level="INFO">GSUB dropped</msg>
+<msg timestamp="20230814 20:31:41.382" level="INFO">glyf pruned</msg>
+<msg timestamp="20230814 20:31:41.385" level="INFO">Added gid0 to subset</msg>
+<msg timestamp="20230814 20:31:41.389" level="INFO">Added first four glyphs to subset</msg>
+<msg timestamp="20230814 20:31:41.392" level="INFO">Closing glyph list over 'glyf': 58 glyphs before</msg>
+<msg timestamp="20230814 20:31:41.393" level="INFO">
